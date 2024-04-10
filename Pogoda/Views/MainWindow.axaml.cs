@@ -7,6 +7,8 @@ namespace Pogoda.Views
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
         }
+
     }
 }

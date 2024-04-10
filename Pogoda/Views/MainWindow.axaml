@@ -9,12 +9,20 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Pogoda">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"></ColumnDefinition>
+			<ColumnDefinition Width="2*"></ColumnDefinition>
+			<ColumnDefinition Width="1*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<Grid.RowDefinitions>
+			<RowDefinition Width="1*"></RowDefinition>
+			<RowDefinition Width="2*"></RowDefinition>
+			<RowDefinition Width="1*"></RowDefinition>
+		</Grid.RowDefinitions>
 
+		<Label Grid.Row="1" Grid.Column="1" Content="TEXT" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+		
+	</Grid>
 </Window>

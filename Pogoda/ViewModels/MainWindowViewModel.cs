@@ -2,8 +2,11 @@
 {
     public class MainWindowViewModel : ViewModelBase
     {
-#pragma warning disable CA1822 // Mark members as static
-        public string Greeting => "Witam";
-#pragma warning restore CA1822 // Mark members as static
+        public string Cityname = "Katowice";
+        public string apiKey = "1d4ba7b25efd6ad9bf23b0c3aaf53c0b";
+
+        
+
+        string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&appid={apiKey}";
     }
 }
