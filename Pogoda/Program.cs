@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using System.Collections.Generic;
 
 namespace Pogoda
 {
@@ -20,5 +21,23 @@ namespace Pogoda
                 .WithInterFont()
                 .LogToTrace()
                 .UseReactiveUI();
+
+
     }
+    public class WeatherData
+    {
+        public MainData Main { get; set; }
+        public List<WeatherDescription> Weather { get; set; }
+    }
+
+    public class MainData
+    {
+        public double Temp { get; set; }
+    }
+
+    public class WeatherDescription
+    {
+        public string Description { get; set; }
+    }
+
 }

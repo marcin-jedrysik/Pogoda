@@ -1,4 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using Pogoda.ViewModels;
+
 
 namespace Pogoda.Views
 {
@@ -8,6 +11,14 @@ namespace Pogoda.Views
         {
             InitializeComponent();
             this.DataContext = new MainWindowViewModel();
+        }
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+        private void GetWeather_Button()
+        {
+            
         }
 
     }

@@ -8,21 +8,27 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Pogoda">
+	<Grid Background="BlueViolet" ShowGridLines="True">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="2*"></ColumnDefinition>
+				<ColumnDefinition Width="2*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="1*"></ColumnDefinition>
-			<ColumnDefinition Width="2*"></ColumnDefinition>
-			<ColumnDefinition Width="1*"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="2*"></RowDefinition>
+				<RowDefinition Height="2*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+			</Grid.RowDefinitions>
 
-		<Grid.RowDefinitions>
-			<RowDefinition Width="1*"></RowDefinition>
-			<RowDefinition Width="2*"></RowDefinition>
-			<RowDefinition Width="1*"></RowDefinition>
-		</Grid.RowDefinitions>
-
-		<Label Grid.Row="1" Grid.Column="1" Content="TEXT" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
-		
+			<Label Grid.Row="1" Grid.Column="1" Content="{Binding Cityname}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25"
+				   Background="Aqua" BorderThickness="2"  Padding="22" BorderBrush="Black" CornerRadius="20"  ></Label>
+			<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Cityname, Mode=TwoWay}" Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"></TextBox>
+			<Label Grid.Row="2" Grid.Column="1" Content="" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+			<Button x:Name="GetWeather" Grid.Row="3" Grid.Column="1" Content="" VerticalAlignment="Center" HorizontalAlignment="Left"></Button>
+		</Grid>
 	</Grid>
 </Window>

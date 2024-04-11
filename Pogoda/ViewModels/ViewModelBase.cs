@@ -4,5 +4,6 @@ namespace Pogoda.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {
+
     }
 }
