@@ -35,12 +35,13 @@ namespace Pogoda.ViewModels
         {
             if (string.IsNullOrEmpty(Cityname))
             {
-                WeatherInfo = "Prosze wpisać nazwe miasta";
+                WeatherInfo = "Prosze wpisać nazwe miasta:";
                 return;
             }
 
             try
             {
+                
                 string apiKey = "1d4ba7b25efd6ad9bf23b0c3aaf53c0b";
                 string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&appid={apiKey}";
 
@@ -52,7 +53,7 @@ namespace Pogoda.ViewModels
                     string responseBody = response.Content.ReadAsStringAsync().Result;
 
                     // Deserialize JSON response
-                    dynamic weatherData = JsonConvert.DeserializeObject(responseBody);
+                    WeatherData weatherData = JsonConvert.DeserializeObject<WeatherData>(responseBody);
 
 
                     WeatherInfo = $"Temperatura: {weatherData.Main.Temp}";

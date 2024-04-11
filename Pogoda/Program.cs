@@ -37,7 +37,7 @@ namespace Pogoda
 
     public class WeatherDescription
     {
-        public string Description { get; set; }
+        //public string Description { get; set; }
     }
 
 }

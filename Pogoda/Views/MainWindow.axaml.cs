@@ -16,9 +16,10 @@ namespace Pogoda.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-        private void GetWeather_Button()
+        private void GetWeather_Button_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            
+            var viewModel = (MainWindowViewModel)this.DataContext;
+            viewModel.GetWeather();
         }
 
     }
