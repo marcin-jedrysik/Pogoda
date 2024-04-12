@@ -23,15 +23,13 @@
 				<RowDefinition Height="2*"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
+			
+			<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Cityname}" Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"></TextBox>
+			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding WeatherInfo}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"></TextBox>
 
-			<!--<Label Grid.Row="1" Grid.Column="1" Content="{Binding WeatherInfo}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25"
-				   Background="Aqua" BorderThickness="2"  Padding="200 18 30 30 " BorderBrush="Black" CornerRadius="20"  ></Label>-->
-			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cityname,Mode=OneWay}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"></TextBox>
-			<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Cityname, Mode=TwoWay}" Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"></TextBox>
-			<!--<Label Grid.Row="2" Grid.Column="1" Content="" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>-->
-			<TextBlock Text="{Binding WeatherInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Background="RoyalBlue"></TextBlock>
-			<Button Content="Get Weather" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" 
-					Click="GetWeather_Button_Click" FontSize="30" ></Button>
+			<!--<TextBlock Text="{Binding WeatherInfo}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Background="RoyalBlue"></TextBlock>-->
+			<Button Content="Get Weather" Click="GetWeather_Button_Click" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" 
+					 FontSize="30" ></Button>
 		</Grid>
 	</Grid>
 </Window>
