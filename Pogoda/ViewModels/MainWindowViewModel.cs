@@ -1,74 +1,84 @@
 ﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using System.ComponentModel;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Newtonsoft.Json;
 
 
 namespace Pogoda.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private string _cityName;
-        private string _weatherInfo;
+        private string _weatherTemp;
 
-        /*public string Cityname
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Cityname
         {
             get => _cityName;
-            set => _cityName = value;
-            
-        }*/
-        public string Cityname { get; set; } 
-
-
-        public string WeatherInfo
-        {
-            get => _weatherInfo;
-            set => _weatherInfo = value;
+            set
+            {
+                _cityName = value;
+                OnPropertyChanged();
+            }
         }
+        public string WeatherTemp
+        {
+            get => _weatherTemp;
+            set
+            {
+                _weatherTemp = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainWindowViewModel()
         {
-           
-            Cityname = "Katowice";
+            Cityname = "Cityname";
+        }
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-        public void GetWeather()
-        { 
+        public async Task GetWeatherAsync()
+        {
             if (string.IsNullOrEmpty(Cityname))
             {
-                WeatherInfo = "Prosze wpisać nazwe miasta:";
+                WeatherTemp = "Prosze wpisać nazwe miasta:";
                 return;
             }
 
             try
             {
-                Cityname = "Katowice";
                 string apiKey = "1d4ba7b25efd6ad9bf23b0c3aaf53c0b";
                 string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&appid={apiKey}";
 
                 using (HttpClient client = new HttpClient())
                 {
-
-                    var response = client.GetAsync(apiUrl).Result;
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
                     response.EnsureSuccessStatusCode();
-                    string responseBody = response.Content.ReadAsStringAsync().Result;
+                    string responseBody = await response.Content.ReadAsStringAsync();
 
-                    // Deserialize JSON response
                     dynamic weatherData = JsonConvert.DeserializeObject(responseBody);
-                    WeatherInfo = $"Temperatura: {weatherData.weather.id}";
-
+                    double temperatureInKelvin = weatherData.main.temp;
+                    double temperatureInCelsius = temperatureInKelvin - 273.15;
+                    WeatherTemp = $"Temperatura: {temperatureInCelsius:F2}°C";
                 }
             }
+
             catch (HttpRequestException)
             {
-                WeatherInfo = "Failed to retrieve weather data. Please check your internet connection.";
+                WeatherTemp = "Failed to retrieve weather data. Please check your internet connection.";
             }
             catch (Exception ex)
             {
-                WeatherInfo = $"An error occurred: {ex.Message}";
+                WeatherTemp = $"An error occurred: {ex.Message}";
             }
         }
     }
+
 }
