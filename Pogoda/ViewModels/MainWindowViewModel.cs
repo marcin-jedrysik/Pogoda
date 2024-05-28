@@ -13,6 +13,9 @@ namespace Pogoda.ViewModels
     {
         private string _cityName;
         private string _weatherTemp;
+        private string _weatherWind;
+        private string _weatherDirection;
+        private string _weatherRain;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,10 +37,37 @@ namespace Pogoda.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string WeatherWind
+        {
+            get => _weatherWind;
+            set
+            {
+                _weatherWind = value;
+                OnPropertyChanged();
+            }
+        }
+        public string WeatherDirection
+        {
+            get => _weatherDirection;
+            set
+            {
+                _weatherDirection = value;
+                OnPropertyChanged();
+            }
+        }
+        public string WeatherRain
+        {
+            get => _weatherRain;
+            set
+            {
+                _weatherRain = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainWindowViewModel()
         {
-            Cityname = "Cityname";
+            Cityname = "Prosze wpisać nazwe miasta:";
         }
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -48,7 +78,7 @@ namespace Pogoda.ViewModels
         {
             if (string.IsNullOrEmpty(Cityname))
             {
-                WeatherTemp = "Prosze wpisać nazwe miasta:";
+                Cityname = "Prosze wpisać nazwe miasta:";
                 return;
             }
 
@@ -67,6 +97,9 @@ namespace Pogoda.ViewModels
                     double temperatureInKelvin = weatherData.main.temp;
                     double temperatureInCelsius = temperatureInKelvin - 273.15;
                     WeatherTemp = $"Temperatura: {temperatureInCelsius:F2}°C";
+                    WeatherWind = $"Prędkość wiatru {weatherData.wind.speed}";
+                    WeatherDirection = $"Kierunek wiatru {weatherData.wind.deg}";
+                    //WeatherRain = $"Planowany opad {weatherData.rain}";
                 }
             }
 

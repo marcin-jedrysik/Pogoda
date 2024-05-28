@@ -24,9 +24,12 @@
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
 
-			<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Cityname}" Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10"/>
+			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cityname}" Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Width="250"/>
 			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding WeatherTemp}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
-			<Button Content="Get Weather" Click="GetWeather_Button_Click" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30"/>
-		</Grid>
+			<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding WeatherWind}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
+			<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding WeatherDirection}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
+			<TextBox Grid.Row="3" Grid.Column="2" Text="{Binding WeatherRain}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
+			<Button Content="Get Weather" Click="GetWeather_Button_Click" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30"/>
+		</Grid> 
 	</Grid>
 </Window>
