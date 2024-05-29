@@ -16,6 +16,8 @@ namespace Pogoda.ViewModels
         private string _weatherWind;
         private string _weatherDirection;
         private string _weatherRain;
+        private string _weatherClouds;
+        private string _weatherIcon;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -64,6 +66,24 @@ namespace Pogoda.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string WeatherClouds
+        {
+            get => _weatherClouds;
+            set
+            {
+                _weatherClouds = value;
+                OnPropertyChanged();
+            }
+        }
+        public string WeatherIcon
+        {
+            get => _weatherIcon;
+            set
+            {
+                _weatherIcon = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainWindowViewModel()
         {
@@ -85,21 +105,24 @@ namespace Pogoda.ViewModels
             try
             {
                 string apiKey = "1d4ba7b25efd6ad9bf23b0c3aaf53c0b";
-                string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&appid={apiKey}";
+                string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&appid={apiKey}&units=metric";
 
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = await client.GetAsync(apiUrl);
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
-
                     dynamic weatherData = JsonConvert.DeserializeObject(responseBody);
-                    double temperatureInKelvin = weatherData.main.temp;
-                    double temperatureInCelsius = temperatureInKelvin - 273.15;
-                    WeatherTemp = $"Temperatura: {temperatureInCelsius:F2}°C";
-                    WeatherWind = $"Prędkość wiatru {weatherData.wind.speed}";
+
+                    int cloudiness = weatherData.clouds.all;
+                   
+                    WeatherTemp = $"Temperatura: {weatherData.main.temp:F2}°C";
+                    WeatherWind = $"Prędkość wiatru {weatherData.wind.speed}m/s";
                     WeatherDirection = $"Kierunek wiatru {weatherData.wind.deg}";
-                    //WeatherRain = $"Planowany opad {weatherData.rain}";
+                    WeatherRain = $"Planowany opad {weatherData.rain[".3h"]}";
+                    WeatherClouds = $"Zachmurzenie {cloudiness}%";
+
+                    WeatherIcon = GetWeatherIcon(cloudiness);
                 }
             }
 
@@ -109,7 +132,19 @@ namespace Pogoda.ViewModels
             }
             catch (Exception ex)
             {
-                WeatherTemp = $"An error occurred: {ex.Message}";
+                WeatherTemp= $"An error occurred: {ex.Message}";
+                WeatherRain = WeatherDirection = WeatherWind = string.Empty;
+            }
+        }
+        private string GetWeatherIcon(int cloudiness)
+        {
+            if (cloudiness > 50)
+            {
+                return $"/Assets/pzach.png";
+            }
+            else
+            {
+                return $"/Assets/slon.png";
             }
         }
     }
