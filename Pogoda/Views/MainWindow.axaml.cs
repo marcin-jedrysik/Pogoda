@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Pogoda.ViewModels;
 using Tmds.DBus.Protocol;
+using System.Threading.Tasks;
 
 
 namespace Pogoda.Views
@@ -19,10 +20,9 @@ namespace Pogoda.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-        private async void GetWeather_Button_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private async void GetWeather_Button_Click(object sender, RoutedEventArgs e)
         {
-            var viewModel = DataContext as MainWindowViewModel;
-            if (viewModel != null)
+            if (DataContext is MainWindowViewModel viewModel)
             {
                 await viewModel.GetWeatherAsync();
             }
