@@ -18,6 +18,7 @@ namespace Pogoda.ViewModels
         private string _weatherDirection;
         private string _weatherRain;
         private string _weatherClouds;
+        private string _weatherDescription;
         private Bitmap _weatherIcon;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -75,6 +76,15 @@ namespace Pogoda.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string WeatherDescription
+        {
+            get => _weatherDescription;
+            set
+            {
+                _weatherDescription = value;
+                OnPropertyChanged();
+            }
+        }
         public Bitmap WeatherIcon
         {
             get => _weatherIcon;
@@ -98,14 +108,13 @@ namespace Pogoda.ViewModels
         {
             if (string.IsNullOrEmpty(Cityname))
             {
-                WeatherTemp = "Podaj";
+                Cityname = "Wpisz tutaj!";
                 return;
             }
-
             try
             {
                 string apiKey = "1d4ba7b25efd6ad9bf23b0c3aaf53c0b";
-                string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&units=metric&appid={apiKey}";
+                string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&units=metric&appid={apiKey}&lang=pl";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -126,6 +135,8 @@ namespace Pogoda.ViewModels
                     {
                         WeatherRain = "Brak opadów";
                     }
+
+                    WeatherDescription = $"{weatherData.weather[0].description}";
 
                     WeatherTemp = $"Temperatura: {weatherData.main.temp:F2}°C";
                     WeatherWind = $"Prędkość wiatru {weatherData.wind.speed}m/s";
