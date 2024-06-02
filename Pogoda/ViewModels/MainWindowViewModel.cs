@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Media.Imaging;
 using Newtonsoft.Json;
 
 
@@ -17,8 +18,7 @@ namespace Pogoda.ViewModels
         private string _weatherDirection;
         private string _weatherRain;
         private string _weatherClouds;
-        private string _weatherIcon;
-
+        private Bitmap _weatherIcon;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Cityname
@@ -75,7 +75,7 @@ namespace Pogoda.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string WeatherIcon
+        public Bitmap WeatherIcon
         {
             get => _weatherIcon;
             set
@@ -120,19 +120,17 @@ namespace Pogoda.ViewModels
                     if (weatherData.rain != null && weatherData.rain["1h"] != null)
                     {
                         double rains = weatherData.rain["1h"];
-                        WeatherRain = $"Planowany opad {rains} mm";
+                        WeatherRain = $"Suma opadó {rains} mm";
                     }
                     else
                     {
                         WeatherRain = "Brak opadów";
                     }
 
-
                     WeatherTemp = $"Temperatura: {weatherData.main.temp:F2}°C";
                     WeatherWind = $"Prędkość wiatru {weatherData.wind.speed}m/s";
                     WeatherDirection = $"Kierunek wiatru {weatherData.wind.deg}";
                     WeatherClouds = $"Zachmurzenie {cloudiness}%";
-
                     WeatherIcon = GetWeatherIcon(cloudiness);
                 }
             }
@@ -147,15 +145,15 @@ namespace Pogoda.ViewModels
                 WeatherDirection = WeatherWind = string.Empty;
             }
         }
-        private string GetWeatherIcon(int cloudiness)
+        private Bitmap GetWeatherIcon(int cloudiness)
         {
             if (cloudiness > 50)
             {
-                return "Pogoda/Assets/pzach.png";
+                return new Bitmap ("E:/ath/avalonia/Pogoda/Pogoda/Assets/pzach.png");
             }
             else
             {
-                return "Pogoda/Assets/slon.png";
+                return new Bitmap("E:/ath/avalonia/Pogoda/Pogoda/Assets/slon.png");
             }
         }
     }
