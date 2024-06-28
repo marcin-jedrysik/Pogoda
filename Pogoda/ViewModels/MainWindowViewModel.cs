@@ -1,18 +1,21 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media.Imaging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace Pogoda.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _cityName;
+        private string _userEnteredCity;
+        private string _weatherCity;
         private string _weatherTemp;
         private string _weatherWind;
         private string _weatherDirection;
@@ -20,14 +23,27 @@ namespace Pogoda.ViewModels
         private string _weatherClouds;
         private string _weatherDescription;
         private Bitmap _weatherIcon;
+        private string _currentTime;
+        private string _currentDayAndDate;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Cityname
+        public string UserEnteredCity
         {
-            get => _cityName;
+            get => _userEnteredCity;
             set
             {
-                _cityName = value;
+                _userEnteredCity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string WeatherCity
+        {
+            get => _weatherCity;
+            set
+            {
+                _weatherCity = value;
                 OnPropertyChanged();
             }
         }
@@ -94,10 +110,29 @@ namespace Pogoda.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string CurrentTime
+        {
+            get => _currentTime;
+            set
+            {
+                _currentTime = value;
+                OnPropertyChanged();
+            }
+        }
+        public string CurrentDayAndDate
+        {
+            get => _currentDayAndDate;
+            set
+            {
+                _currentDayAndDate = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainWindowViewModel()
         {
-            Cityname = "Katowice";
+            UserEnteredCity = "Katowice";
+            GetWeatherAsync();
         }
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -106,15 +141,10 @@ namespace Pogoda.ViewModels
 
         public async Task GetWeatherAsync()
         {
-            if (string.IsNullOrEmpty(Cityname))
-            {
-                Cityname = "Wpisz tutaj!";
-                return;
-            }
             try
             {
                 string apiKey = "1d4ba7b25efd6ad9bf23b0c3aaf53c0b";
-                string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={Cityname}&units=metric&appid={apiKey}&lang=pl";
+                string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={UserEnteredCity}&units=metric&appid={apiKey}&lang=pl";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -129,20 +159,26 @@ namespace Pogoda.ViewModels
                     if (weatherData.rain != null && weatherData.rain["1h"] != null)
                     {
                         double rains = weatherData.rain["1h"];
-                        WeatherRain = $"Suma opadó {rains} mm";
+                        WeatherRain = $"{rains}mm";
                     }
                     else
                     {
-                        WeatherRain = "Brak opadów";
+                        WeatherRain = "Brak";
                     }
 
-                    WeatherDescription = $"{weatherData.weather[0].description}";
+                    WeatherDescription = CultureInfo.CurrentCulture.TextInfo.ToTitleCase($"{weatherData.weather[0].description}");
 
-                    WeatherTemp = $"Temperatura: {weatherData.main.temp:F2}°C";
-                    WeatherWind = $"Prędkość wiatru {weatherData.wind.speed}m/s";
-                    WeatherDirection = $"Kierunek wiatru {weatherData.wind.deg}";
-                    WeatherClouds = $"Zachmurzenie {cloudiness}%";
-                    WeatherIcon = GetWeatherIcon(cloudiness);
+                    WeatherTemp = $"{weatherData.main.temp:F2}°C";
+                    WeatherWind = $"{weatherData.wind.speed}m/s";
+                    WeatherDirection = $"{weatherData.wind.deg}";
+                    WeatherClouds = $"{cloudiness}%";
+                    WeatherIcon = GetWeatherIcon((string)weatherData.weather[0].icon);
+
+                    long timezoneOffset = (long)weatherData["timezone"];
+
+                    DateTimeOffset currentTimeOffset = DateTimeOffset.UtcNow
+                        .ToOffset(TimeSpan.FromSeconds(timezoneOffset));
+                    CurrentTime = currentTimeOffset.ToString("HH:mm - dddd, dd.MM.yyyy", CultureInfo.GetCultureInfo("pl-PL"));
                 }
             }
 
@@ -156,15 +192,20 @@ namespace Pogoda.ViewModels
                 WeatherDirection = WeatherWind = string.Empty;
             }
         }
-        private Bitmap GetWeatherIcon(int cloudiness)
+        private Bitmap GetWeatherIcon(string iconCode)
         {
-            if (cloudiness > 50)
+            string basePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../../Pogoda/Assets");
+            string iconPath = $"{iconCode}.png";
+
+            string fullIconPath = System.IO.Path.Combine(basePath, iconPath);
+
+            if (System.IO.File.Exists(fullIconPath))
             {
-                return new Bitmap ("E:/ath/avalonia/Pogoda/Pogoda/Assets/pzach.png");
+                return new Bitmap(fullIconPath);
             }
             else
             {
-                return new Bitmap("E:/ath/avalonia/Pogoda/Pogoda/Assets/slon.png");
+                return new Bitmap(System.IO.Path.Combine(basePath, "unknown.png"));
             }
         }
     }

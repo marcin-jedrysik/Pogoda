@@ -25,24 +25,54 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
-			<TextBox Grid.Row="0" Grid.Column="0" Text="Wpisz miejscowość: " Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" CornerRadius="7" Padding="20 5 20 0" />
-			<TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Cityname, Mode=TwoWay}" Background="GreenYellow" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" CornerRadius="7" Width="250"/>
-			<TextBox Grid.Row="1" Grid.Column="0" Text="{Binding WeatherDescription}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+		<StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<TextBlock Text="{Binding WeatherTemp}" FontSize="120" FontWeight="Medium" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+			<StackPanel Grid.Column="0" Grid.Row="0" Margin="20 0 20 10" Orientation="Vertical" VerticalAlignment="Center">
+				<TextBlock Text="{Binding WeatherCity}" FontSize="40" FontWeight="Medium" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+				<TextBlock Text="{Binding CurrentTime}" FontSize="12" FontWeight="Light" Foreground="White" />
+				<TextBlock Text="{Binding CurrentDayAndDate}" FontSize="12" FontWeight="Light" Foreground="White" />
+			</StackPanel>
+			<StackPanel Grid.Column="0" Grid.Row="0" Margin="0 0 0 10" Orientation="Vertical" VerticalAlignment="Center">
+				<Image Grid.Row="3" Grid.Column="1" Source="{Binding WeatherIcon}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="50"/>
+				<TextBlock Text="{Binding WeatherDescription}" FontSize="12" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+			</StackPanel>
+		</StackPanel>
 
-			<TextBox Grid.Row="1" Grid.Column="3" Text="{Binding WeatherTemp}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
-			<TextBox Grid.Row="1" Grid.Column="4" Text="{Binding WeatherWind}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
-			<TextBox Grid.Row="2" Grid.Column="4" Text="{Binding WeatherDirection}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
-			<TextBox Grid.Row="3" Grid.Column="4" Text="{Binding WeatherRain}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
-
-
-			<TextBox Grid.Row="3" Grid.Column="3" Text="{Binding WeatherClouds}" Background="Aqua" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" />
-			<Canvas Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="200" Background="Beige"/>
-			<Image Grid.Row="3" Grid.Column="1" Source="{Binding WeatherIcon}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="200"/>
-
-			<Button Content="" Click="GetWeather_Button_Click" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Width="30" Height="30" >
-				<Button.Background>
-					<ImageBrush Source="avares://Pogoda/Assets/search.png"/>
-				</Button.Background>
-			</Button>
+		<Border Grid.Column="1" Grid.Row="0" Background="#80000000" Padding="20">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 20">
+					<TextBox Text="{Binding UserEnteredCity, Mode=TwoWay}" Width="300" Height="40" VerticalAlignment="Center" Margin="10" FontSize="20" FontFamily="{StaticResource DefaultFontFamily}" />
+					<Button Width="40" Height="40" Click="GetWeather_Button_Click" Background="#979395">
+						<Image Source="avares://Pogoda/Assets/search.png"/>
+					</Button>
+				</StackPanel>
+				<TextBlock Text="Szczegóły pogody" FontSize="20" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+				<Separator Background="#979395" Margin="0 8" />
+				<Grid Grid.Column="0" Grid.Row="0" Margin="0 4 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Zachmurzenie" FontSize="16" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+					<TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding WeatherClouds}" FontSize="16" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+				</Grid>
+				<Grid Grid.Column="0" Grid.Row="0" Margin="0 4 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Prędkość wiatru" FontSize="16" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+					<TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding WeatherWind}" FontSize="16" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+				</Grid>
+				<Grid Grid.Column="0" Grid.Row="0" Margin="0 4 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Opady" FontSize="16" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+					<TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding WeatherRain}" FontSize="16" Foreground="White" FontFamily="{StaticResource DefaultFontFamily}" />
+				</Grid>
+			</StackPanel>
+		</Border>
 		</Grid>
 </Window>
