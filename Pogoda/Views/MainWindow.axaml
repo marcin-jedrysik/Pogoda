@@ -8,27 +8,21 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Pogoda.Views">
+	
 	<Window.Background>
-		<ImageBrush Source="/Assets/background.jpeg" Stretch="Fill"/>
+		<ImageBrush Source="/Assets/background.jpg" Stretch="Fill"/>
 	</Window.Background>
-	<Grid >
-		<Grid>
+	
+	<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="4*"/>
+				<ColumnDefinition Width="3*"/>
+
 			</Grid.ColumnDefinitions>
 
 			<Grid.RowDefinitions>
-				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
 			<TextBox Grid.Row="0" Grid.Column="0" Text="Wpisz miejscowość: " Background="GreenYellow" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" CornerRadius="7" Padding="20 5 20 0" />
@@ -51,5 +45,4 @@
 				</Button.Background>
 			</Button>
 		</Grid>
-	</Grid>
 </Window>
